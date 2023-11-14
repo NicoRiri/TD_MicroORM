@@ -22,11 +22,15 @@ class Query
         return $this;
     }
 
-    public function where(string $col,
-                          string $op,
-                          mixed $val) : Query {
-        /* … */
-        $this->args[]=$val;
+    public function where(string $col, string $op, mixed $val): Query
+    {
+        if (!is_null($this->where)) {
+            $this->where .= ' and ' . $col . $op . '?';
+        }
+        else {
+            $this->where = $col . $op . '?';
+        }
+        $this->args[] = $val;
         return $this;
     }
     public function get() : Array {
