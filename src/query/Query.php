@@ -36,13 +36,20 @@ class Query
     public function get() : Array {
         $ini = parse_ini_file(__DIR__ . "/../db.ini");
         $pdo = new PDO($ini["driver"].":host=".$ini["host"].";dbname=".$ini["dbname"], $ini["user"], $ini["password"]);
-        $this->sql = 'select '. $this->fields .
-            ' from ' . $this->sqltable . " where " . $this->where;
-        $stmt = $pdo->prepare($this->sql);
+        if(is_null($this->where)){
+        $this->sql = 'select '. $this->fields . ' from ' . $this->sqltable;
+        }
+        else {
+            $this->sql = 'select ' . $this->fields .
+                ' from ' . $this->sqltable . " where " . $this->where;
+        }
+        $stmt = $pdo->prepare($this->sql, $this->args);
         $stmt->execute($this->args);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        var_dump($this->sql);
     }
-    public function insert([] $args):Array{
+
+    public function insert($args):Array{
         $ini = parse_ini_file(__DIR__ . "/../db.ini");
         $pdo = new PDO($ini["driver"].":host=".$ini["host"].";dbname=".$ini["dbname"], $ini["user"], $ini["password"]);
         $this->sql = 'insert into ' . $this->sqltable . ' values (';
