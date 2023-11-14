@@ -42,7 +42,7 @@ class Query
         $stmt->execute($this->args);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
-    public function insert([] $args):Array{
+    public function insert(array $args):Array{
         $ini = parse_ini_file(__DIR__ . "/../db.ini");
         $pdo = new PDO($ini["driver"].":host=".$ini["host"].";dbname=".$ini["dbname"], $ini["user"], $ini["password"]);
         $this->sql = 'insert into ' . $this->sqltable . ' values (';
