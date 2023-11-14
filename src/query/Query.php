@@ -42,7 +42,14 @@ class Query
         $stmt->execute($this->args);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
+public function insert([] $args):Query{
+    $this->sql = 'insert into ' . $this->sqltable . ' values (';
+    $this->sql .= implode(',', array_fill(0, count($args), '?'));
+    $this->sql .= ')';
+    $this->args = $args;
+    return $this;
 
+}
 
 
 
