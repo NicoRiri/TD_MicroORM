@@ -1,0 +1,9 @@
+{
+    "name": "neeko/paradigme",
+    "autoload": {
+        "psr-4": {
+            "iutnc\\hellokant\\": "src/"
+        }
+    },
+    "require": {}
+}
