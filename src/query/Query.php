@@ -53,6 +53,7 @@ class Query
         $this->args = $args;
         $stmt = ConnectionFactory::getConnection()->prepare($this->sql);
         $stmt->execute($this->args);
+        return ConnectionFactory::getConnection()->lastInsertId();
     }
 
     public function delete(){
