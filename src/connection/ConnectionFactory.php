@@ -2,6 +2,8 @@
 
 namespace iutnc\hellokant\connection;
 
+use PDO;
+
 class ConnectionFactory
 {
 
