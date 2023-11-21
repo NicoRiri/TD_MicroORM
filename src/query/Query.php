@@ -46,21 +46,19 @@ class Query
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         var_dump($this->sql);
     }
-    public function insert(array $args):Array{
+    public function insert(array $args){
         $this->sql = 'insert into ' . $this->sqltable . ' values (';
         $this->sql .= implode(',', array_fill(0, count($args), '?'));
         $this->sql .= ')';
         $this->args = $args;
         $stmt = ConnectionFactory::getConnection()->prepare($this->sql);
         $stmt->execute($this->args);
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function delete():Query{
-        $this->sql = 'delete FROM ? where ?';
+    public function delete(){
+        $this->sql = ' delete FROM '.$this->sqltable.' where '.$this->where;
         $stmt = ConnectionFactory::getConnection()->prepare($this->sql);
-        $stmt->execute([$this->sqltable, $this->where]);
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $stmt->execute($this->args);
     }
 
 
