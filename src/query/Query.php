@@ -2,7 +2,7 @@
 
 namespace iutnc\hellokant\query;
 
-use PDO;
+use iutnc\hellokant\connection\ConnectionFactory;
 
 class Query
 {
@@ -34,8 +34,6 @@ class Query
         return $this;
     }
     public function get() : Array {
-        $ini = parse_ini_file(__DIR__ . "/../db.ini");
-        $pdo = new PDO($ini["driver"].":host=".$ini["host"].";dbname=".$ini["dbname"], $ini["user"], $ini["password"]);
         if(is_null($this->where)){
         $this->sql = 'select '. $this->fields . ' from ' . $this->sqltable;
         }
@@ -43,28 +41,24 @@ class Query
             $this->sql = 'select ' . $this->fields .
                 ' from ' . $this->sqltable . " where " . $this->where;
         }
-        $stmt = $pdo->prepare($this->sql, $this->args);
+        $stmt = ConnectionFactory::getConnection()->prepare($this->sql, $this->args);
         $stmt->execute($this->args);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         var_dump($this->sql);
     }
     public function insert(array $args):Array{
-        $ini = parse_ini_file(__DIR__ . "/../db.ini");
-        $pdo = new PDO($ini["driver"].":host=".$ini["host"].";dbname=".$ini["dbname"], $ini["user"], $ini["password"]);
         $this->sql = 'insert into ' . $this->sqltable . ' values (';
         $this->sql .= implode(',', array_fill(0, count($args), '?'));
         $this->sql .= ')';
         $this->args = $args;
-        $stmt = $pdo->prepare($this->sql);
+        $stmt = ConnectionFactory::getConnection()->prepare($this->sql);
         $stmt->execute($this->args);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     public function delete():Query{
-        $ini = parse_ini_file(__DIR__ . "/../db.ini");
-        $pdo = new PDO($ini["driver"].":host=".$ini["host"].";dbname=".$ini["dbname"], $ini["user"], $ini["password"]);
         $this->sql = 'delete FROM ? where ?';
-        $stmt = $pdo->prepare($this->sql);
+        $stmt = ConnectionFactory::getConnection()->prepare($this->sql);
         $stmt->execute([$this->sqltable, $this->where]);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
