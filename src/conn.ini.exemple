@@ -1,0 +1,5 @@
+driver=mariadb
+host=localhost:3306
+database=ormdb
+username=root
+password=password
