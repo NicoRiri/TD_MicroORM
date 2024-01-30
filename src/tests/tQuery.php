@@ -2,7 +2,7 @@
 
 require_once "../../vendor/autoload.php";
 
-$conf = parse_ini_file("../db.ini");
+$conf = parse_ini_file("../conn.ini");
 \iutnc\hellokant\connection\ConnectionFactory::makeConnection($conf);
 
 //$q = \iutnc\hellokant\query\Query::table("article")->select(["nom"])->get();
