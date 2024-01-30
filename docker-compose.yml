@@ -1,0 +1,23 @@
+version: '3'
+networks:
+  orm.net:
+    driver: bridge
+services:
+  maria:
+    image: 'mariadb'
+    ports:
+      - "3306:3306"
+    environment:
+      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD:-password}
+      - MARIADB_DATABASE=${MARIADB_ROOT_PASSWORD:-ormdb}
+    volumes:
+      - ./sql/:/docker-entrypoint-initdb.d/
+    networks:
+      - orm.net
+
+  sadminer:
+    image: adminer
+    ports:
+      - '8080:8080'
+    networks:
+      - orm.net
