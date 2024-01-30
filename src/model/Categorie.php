@@ -2,11 +2,13 @@
 
 namespace iutnc\hellokant\model;
 
-class Article extends Model
-{
-    protected static $table = 'article';
-    protected static $idColumn = 'id';
+use iutnc\hellokant\model\Model;
 
+class Categorie extends Model
+{
+
+    protected static $table = 'categorie';
+    protected static $idColumn = 'id';
 
     public function delete()
     {
@@ -42,10 +44,8 @@ class Article extends Model
         return (!empty($results)) ? $results[0] : null;
     }
 
-    public function categorie()
+    public function articles()
     {
-        return $this->belongs_to('categorie');
+        return $this->has_many('article');
     }
-
-
 }
