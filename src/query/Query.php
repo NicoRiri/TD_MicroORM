@@ -25,10 +25,10 @@ class Query
     public function where(string $col, string $op, mixed $val): Query
     {
         if (!is_null($this->where)) {
-            $this->where .= ' and ' . $col . $op . '?';
+            $this->where .= ' and ' . $col .' ' . $op .' ?';
         }
         else {
-            $this->where = $col . $op . '?';
+            $this->where = $col.' ' . $op .' ?';
         }
         $this->args[] = $val;
         return $this;

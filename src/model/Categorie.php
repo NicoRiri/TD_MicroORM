@@ -18,7 +18,7 @@ class Categorie extends Model
             ->delete();
     }
 
-    public function all()
+    static function all()
     {
         return Query::table(static::$table)
             ->select(['*'])
@@ -26,7 +26,7 @@ class Categorie extends Model
 
     }
 
-    public function find($criter = [], $columns = ['*'])
+    static function find($criter = [], $columns = ['*'])
     {
         $query = Query::table(static::$table)->select($columns);
         if (!empty($criter)) {
@@ -38,14 +38,14 @@ class Categorie extends Model
         return $query->get();
     }
 
-    public function first($criter = [], $columns = ['*'])
+    static function first($criter = [], $columns = ['*'])
     {
-        $results = $this->find($criter, $columns);
+        $results = Categorie::find($criter, $columns);
         return (!empty($results)) ? $results[0] : null;
     }
 
     public function articles()
     {
-        return $this->has_many('article');
+        return $this->has_many('article',"id_marque");
     }
 }

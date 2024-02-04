@@ -2,6 +2,8 @@
 
 namespace iutnc\hellokant\model;
 
+use iutnc\hellokant\query\Query;
+
 class Article extends Model
 {
     protected static $table = 'article';
@@ -16,15 +18,14 @@ class Article extends Model
             ->delete();
     }
 
-    public function all()
+    static function all()
     {
         return Query::table(static::$table)
             ->select(['*'])
             ->get();
-
     }
 
-    public function find($criter = [], $columns = ['*'])
+    static function find($criter = [], $columns = ['*'])
     {
         $query = Query::table(static::$table)->select($columns);
         if (!empty($criter)) {
@@ -36,15 +37,15 @@ class Article extends Model
         return $query->get();
     }
 
-    public function first($criter = [], $columns = ['*'])
+    static function first($criter = [], $columns = ['*'])
     {
-        $results = $this->find($criter, $columns);
+        $results = Article::find($criter, $columns);
         return (!empty($results)) ? $results[0] : null;
     }
 
     public function categorie()
     {
-        return $this->belongs_to('categorie');
+        return $this->belongs_to('categorie', 'id_categ');
     }
 
 
