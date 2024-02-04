@@ -21,3 +21,14 @@ services:
       - '8080:8080'
     networks:
       - orm.net
+
+  php:
+    image: 'canals/php'
+    ports:
+      - '80:80'
+    volumes:
+        - ./src/tests:/var/www/html/
+        - ./:/var/www/
+    working_dir: /var/www/
+    networks:
+      - orm.net

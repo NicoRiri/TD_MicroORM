@@ -1,5 +1,6 @@
-driver=mariadb
-host=localhost:3306
+driver=mysql
+host=maria
+port=3306
 database=ormdb
 username=root
 password=password
